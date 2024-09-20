@@ -131,27 +131,34 @@ export default class {
   }
 
   handleShowTickets(e, bills, index) {
-    if (this.counter === undefined || this.index !== index) this.counter = 0
-    if (this.index === undefined || this.index !== index) this.index = index
-    if (this.counter % 2 === 0) {
-      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
-      $(`#status-bills-container${this.index}`)
-        .html(cards(filteredBills(bills, getStatus(this.index))))
-      this.counter ++
-    } else {
-      $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
-      $(`#status-bills-container${this.index}`)
-        .html("")
-      this.counter ++
+    const container = $(`#status-bills-container${index}`);
+    const arrowIcon = $(`#arrow-icon${index}`);
+    
+    // Vérifie si la liste est déjà ouverte 
+    const isExpanded = container.children().length > 0;
+  
+    // Si la liste est ouverte, on la ferme
+    if (isExpanded) {
+        container.html(""); // Vide le contenu du conteneur 
+        arrowIcon.css({ transform: 'rotate(90deg)' }); 
+    } 
+    // Si la liste est fermée, on l'ouvre
+    else {
+        // Remplit le conteneur avec les factures filtrées selon le statut
+        container.html(cards(filteredBills(bills, getStatus(index))));
+        arrowIcon.css({ transform: 'rotate(0deg)' }); 
+  
+        // Ajoute un gestionnaire de clic pour chaque facture 
+        filteredBills(bills, getStatus(index)).forEach(bill => {
+            $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills));
+        });
     }
+  
+    return bills; 
+}
 
-    bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
-    })
-
-    return bills
-
-  }
+  
+  
 
   getBillsAllUsers = () => {
     if (this.store) {
