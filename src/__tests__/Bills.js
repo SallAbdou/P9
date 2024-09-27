@@ -45,5 +45,12 @@ describe("Given I am connected as an employee", () => {
       const iconEyes = await waitFor(() => screen.getAllByTestId('icon-eye'))
       expect(iconEyes.length).toEqual((await mockStore.bills().list()).length)
     })
+
+    test("Then it should display the 'Nouvelle note de frais' button", () => {
+      document.body.innerHTML = BillsUI({ data: bills }); // Assurez-vous que les données sont chargées
+      const newBillButton = screen.getByRole('button', { name: /Nouvelle note de frais/i });
+      expect(newBillButton).toBeTruthy(); // Vérifie que le bouton est présent
+    });
+  
   });
 });
