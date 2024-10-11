@@ -15,6 +15,8 @@ export default class Login {
     const formAdmin = this.document.querySelector(`form[data-testid="form-admin"]`)
     formAdmin.addEventListener("submit", this.handleSubmitAdmin)
   }
+
+   // Gère la soumission du formulaire d'employé 
   handleSubmitEmployee = e => {
     e.preventDefault()
     const user = {
@@ -36,7 +38,7 @@ export default class Login {
       })
 
   }
-
+  // Gère la soumission du formulaire d'administrateur
   handleSubmitAdmin = e => {
     e.preventDefault()
     const user = {

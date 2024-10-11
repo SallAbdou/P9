@@ -27,6 +27,7 @@ export const filteredBills = (data, status) => {
     }) : []
 }
 
+// Génère le HTML pour une carte de facture
 export const card = (bill) => {
   const firstAndLastNames = bill.email.split('@')[0]
   const firstName = firstAndLastNames.includes('.') ?
@@ -52,6 +53,7 @@ export const card = (bill) => {
   `)
 }
 
+// Génère le HTML pour toutes les cartes de factures
 export const cards = (bills) => {
   return bills && bills.length ? bills.map(bill => card(bill)).join("") : ""
 }

@@ -16,10 +16,12 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
 
+  // Méthode pour vérifier si l'extension de fichier est valide
   hasValidExtension = (extension, validExtensions = ['jpg', 'jpeg', 'png']) => validExtensions.includes(extension.toLowerCase())
 
   handleChangeFile = e => {
     e.preventDefault()
+    // Sélectionne le fichier et crée un nouvel objet FormData
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
@@ -27,7 +29,7 @@ export default class NewBill {
     errorExtension.classList.remove('show-error')
     errorExtension.classList.add('hide-error')
 
-    // Check if file name contains extension valid
+    // Vérifie si le nom du fichier contient une extension valide
     const fileNameSplitted = file.name.split('.')
     const extension = fileNameSplitted[fileNameSplitted.length - 1].toLowerCase()
     if (!this.hasValidExtension(extension)) {
@@ -36,6 +38,7 @@ export default class NewBill {
       return
     }
 
+    //On ajoute le fichier/mail au FormData, stock le nom du fichier puis créer le fichier
     formData.append('file', file)
     formData.append('email', email)
     this.fileName = file.name
@@ -43,6 +46,7 @@ export default class NewBill {
     this.createFile(formData)
   }
 
+  // Méthode pour gérer la soumission du formulaire
   handleSubmit = e => {
     e.preventDefault()
     const email = JSON.parse(localStorage.getItem("user")).email
